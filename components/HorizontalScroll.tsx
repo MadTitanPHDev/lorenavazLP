@@ -2,10 +2,20 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useRef, useState } from "react";
+import {
+  AnimatePresence,
+  motion,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
 import { SERVICES, type Service } from "@/lib/content";
+
+const SLIDE_TRANSITION = {
+  duration: 0.8,
+  ease: [0.33, 1, 0.68, 1] as const,
+};
 
 function ServiceCard({
   service,
@@ -56,14 +66,88 @@ function ServiceCard({
   );
 }
 
-export function HorizontalScroll() {
-  const targetRef = useRef<HTMLDivElement>(null);
+function StickyTechniquesScroll() {
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: containerRef,
     offset: ["start start", "end end"],
   });
-  const x = useTransform(scrollYProgress, [0, 1], ["0%", "-68%"]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeService = SERVICES[activeIndex];
 
+  useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    const index = Math.min(
+      SERVICES.length - 1,
+      Math.floor(latest * SERVICES.length),
+    );
+    setActiveIndex(index);
+  });
+
+  return (
+    <div ref={containerRef} className="relative hidden h-[300vh] lg:block">
+      <div className="sticky top-0 h-screen">
+        <div className="relative grid h-full grid-cols-[45%_55%] border-t border-sand/30">
+          <div className="relative flex flex-col justify-center overflow-hidden border-r border-sand/30 px-12 xl:px-20">
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                key={activeService.id}
+                initial={{ y: 50, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -50, opacity: 0 }}
+                transition={SLIDE_TRANSITION}
+                className="max-w-lg"
+              >
+                <p className="font-serif text-6xl font-normal text-sand xl:text-8xl">
+                  {activeService.index}
+                </p>
+                <h3 className="mt-10 font-serif text-[clamp(3rem,5vw,5.5rem)] font-normal leading-none">
+                  {activeService.title}
+                  <br />
+                  <em className="italic">{activeService.subtitle}</em>
+                </h3>
+                <p className="mt-8 max-w-md font-sans text-sm font-light uppercase leading-[1.85] tracking-[0.22em] text-ink/75">
+                  {activeService.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <div className="relative overflow-hidden bg-sand/20">
+            <AnimatePresence initial={false}>
+              <motion.div
+                key={activeService.id}
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: 0 }}
+                transition={SLIDE_TRANSITION}
+                className="absolute inset-0"
+                style={{ zIndex: activeIndex + 1 }}
+              >
+                <Image
+                  src={activeService.image}
+                  alt={activeService.alt}
+                  fill
+                  sizes="55vw"
+                  className="object-cover"
+                  priority={activeIndex === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          <Link
+            href={activeService.href}
+            className="absolute bottom-20 left-1/2 z-30 -translate-x-1/2 rounded-full border border-sand bg-cream px-8 py-4 text-[11px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 hover:bg-sand/20"
+          >
+            Descobrir o cuidado
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export function HorizontalScroll() {
   return (
     <section aria-labelledby="tecnicas-heading">
       <div className="px-5 py-20 md:px-10 md:py-28 lg:px-16">
@@ -109,23 +193,7 @@ export function HorizontalScroll() {
         ))}
       </div>
 
-      <div ref={targetRef} className="relative hidden h-[320vh] lg:block">
-        <div className="sticky top-0 flex h-screen items-center overflow-hidden">
-          <motion.div
-            style={{ x }}
-            className="flex gap-8 pl-16 pr-[20vw] will-change-transform"
-          >
-            {SERVICES.map((service) => (
-              <div key={service.id} className="h-[72vh] border border-sand">
-                <ServiceCard
-                  service={service}
-                  className="w-[min(70vw,820px)]"
-                />
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </div>
+      <StickyTechniquesScroll />
     </section>
   );
 }
