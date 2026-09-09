@@ -10,61 +10,12 @@ import {
   useScroll,
 } from "framer-motion";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
-import { SERVICES, type Service } from "@/lib/content";
+import { SERVICES } from "@/lib/content";
 
 const SLIDE_TRANSITION = {
   duration: 0.8,
   ease: [0.33, 1, 0.68, 1] as const,
 };
-
-function ServiceCard({
-  service,
-  className = "",
-}: {
-  service: Service;
-  className?: string;
-}) {
-  return (
-    <article
-      className={`relative flex h-full shrink-0 flex-col justify-between overflow-hidden bg-cream ${className}`}
-    >
-      <div className="flex flex-1 flex-col justify-between gap-8 p-8 md:flex-row md:p-12">
-        <div className="flex max-w-md flex-col justify-between">
-          <p className="font-serif text-5xl font-normal text-sand md:text-7xl">
-            {service.index}
-          </p>
-          <div className="mt-10 md:mt-0">
-            <h3 className="font-serif text-[clamp(2.25rem,5vw,4.25rem)] font-normal leading-[0.95]">
-              {service.title}
-              <br />
-              <em className="italic">{service.subtitle}</em>
-            </h3>
-            <p className="mt-6 max-w-sm font-sans text-sm font-light leading-[1.85] text-ink/75 md:text-[15px]">
-              {service.description}
-            </p>
-            <Link
-              href={service.href}
-              className="group relative mt-8 inline-block text-[11px] font-medium uppercase tracking-[0.22em]"
-            >
-              Descobrir
-              <span className="absolute inset-x-0 -bottom-0.5 h-px origin-left scale-x-0 bg-ink transition-transform duration-500 ease-out group-hover:scale-x-100" />
-            </Link>
-          </div>
-        </div>
-
-        <div className="relative aspect-[3/4] w-full overflow-hidden bg-sand/30 md:aspect-auto md:h-full md:min-h-[280px] md:w-[42%]">
-          <Image
-            src={service.image}
-            alt={service.alt}
-            fill
-            sizes="(max-width: 768px) 80vw, 32vw"
-            className="object-cover"
-          />
-        </div>
-      </div>
-    </article>
-  );
-}
 
 function StickyTechniquesScroll() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -84,28 +35,28 @@ function StickyTechniquesScroll() {
   });
 
   return (
-    <div ref={containerRef} className="relative hidden h-[300vh] lg:block">
-      <div className="sticky top-0 h-screen">
-        <div className="relative grid h-full grid-cols-[45%_55%] border-t border-sand/30">
-          <div className="relative flex flex-col justify-center overflow-hidden border-r border-sand/30 px-12 xl:px-20">
+    <div ref={containerRef} className="relative h-[300vh]">
+      <div className="sticky top-0 h-dvh">
+        <div className="relative grid h-full grid-rows-[1fr_1.15fr] border-t border-sand/30 lg:grid-cols-[45%_55%] lg:grid-rows-none">
+          <div className="relative z-10 flex flex-col justify-center overflow-hidden border-sand/30 px-5 py-8 md:px-10 lg:border-r lg:px-12 lg:py-0 xl:px-20">
             <AnimatePresence mode="popLayout">
               <motion.div
                 key={activeService.id}
-                initial={{ y: 50, opacity: 0 }}
+                initial={{ y: 40, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
-                exit={{ y: -50, opacity: 0 }}
+                exit={{ y: -40, opacity: 0 }}
                 transition={SLIDE_TRANSITION}
                 className="max-w-lg"
               >
-                <p className="font-serif text-6xl font-normal text-sand xl:text-8xl">
+                <p className="font-serif text-5xl font-normal text-sand md:text-6xl xl:text-8xl">
                   {activeService.index}
                 </p>
-                <h3 className="mt-10 font-serif text-[clamp(3rem,5vw,5.5rem)] font-normal leading-none">
+                <h3 className="mt-6 font-serif text-[clamp(2.4rem,8vw,5.5rem)] font-normal leading-none lg:mt-10">
                   {activeService.title}
                   <br />
                   <em className="italic">{activeService.subtitle}</em>
                 </h3>
-                <p className="mt-8 max-w-md font-sans text-sm font-light uppercase leading-[1.85] tracking-[0.22em] text-ink/75">
+                <p className="mt-5 max-w-md font-sans text-[13px] font-light uppercase leading-[1.85] tracking-[0.18em] text-ink/75 md:mt-8 md:text-sm md:tracking-[0.22em]">
                   {activeService.description}
                 </p>
               </motion.div>
@@ -127,7 +78,7 @@ function StickyTechniquesScroll() {
                   src={activeService.image}
                   alt={activeService.alt}
                   fill
-                  sizes="55vw"
+                  sizes="(max-width: 1024px) 100vw, 55vw"
                   className="object-cover"
                   priority={activeIndex === 0}
                 />
@@ -137,7 +88,7 @@ function StickyTechniquesScroll() {
 
           <Link
             href={activeService.href}
-            className="absolute bottom-20 left-1/2 z-30 -translate-x-1/2 rounded-full border border-sand bg-cream px-8 py-4 text-[11px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 hover:bg-sand/20"
+            className="absolute bottom-6 left-1/2 z-30 -translate-x-1/2 rounded-full border border-sand bg-cream px-6 py-3 text-[11px] font-medium uppercase tracking-[0.22em] transition-colors duration-300 hover:bg-sand/20 md:bottom-10 md:px-8 md:py-4 lg:bottom-20"
           >
             Descobrir o cuidado
           </Link>
@@ -180,16 +131,6 @@ export function HorizontalScroll() {
             id={service.id}
             className="absolute top-0 h-px w-px scroll-mt-28"
           />
-        ))}
-      </div>
-
-      <div className="space-y-6 px-5 pb-20 lg:hidden">
-        {SERVICES.map((service, i) => (
-          <FadeUpReveal key={service.id} delay={i * 0.08}>
-            <div className="border border-sand">
-              <ServiceCard service={service} className="w-full" />
-            </div>
-          </FadeUpReveal>
         ))}
       </div>
 
