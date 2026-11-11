@@ -1,11 +1,12 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
+import { FillImage } from "@/components/FillImage";
 import { SERVICES, type Service } from "@/lib/content";
+import { serviceBlock } from "@/lib/screen";
 
 export function ServiceView({ service }: { service: Service }) {
   const imageRef = useRef<HTMLDivElement>(null);
@@ -20,9 +21,12 @@ export function ServiceView({ service }: { service: Service }) {
   const next = SERVICES[(currentIndex + 1) % SERVICES.length];
 
   return (
-    <article className="px-5 pt-32 pb-20 md:px-10 md:pt-40 lg:px-16 lg:pb-28">
-      <FadeUpReveal>
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/55">
+    <article
+      {...serviceBlock(service.id)}
+      className="px-5 pt-32 pb-20 md:px-10 md:pt-40 lg:px-16 lg:pb-28"
+    >
+      <FadeUpReveal {...serviceBlock(service.id, "intro")}>
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
           {service.eyebrow}
         </p>
         <h1 className="mt-4 max-w-4xl font-serif text-[clamp(3rem,8vw,7.5rem)] font-normal leading-[0.92] tracking-[-0.02em]">
@@ -32,20 +36,21 @@ export function ServiceView({ service }: { service: Service }) {
         </h1>
       </FadeUpReveal>
 
-      <div className="mt-14 grid items-start gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-16">
+      <div
+        {...serviceBlock(service.id, "corpo")}
+        className="mt-14 grid items-start gap-12 lg:mt-20 lg:grid-cols-12 lg:gap-16"
+      >
         <FadeUpReveal className="lg:col-span-5" delay={0.08}>
           <div
             ref={imageRef}
             className="relative aspect-[3/4] overflow-hidden bg-sand/30"
           >
             <motion.div style={{ y }} className="absolute -inset-y-[12%] inset-x-0">
-              <Image
+              <FillImage
                 src={service.image}
                 alt={service.alt}
-                fill
-                priority
+                preload
                 sizes="(max-width: 1024px) 90vw, 40vw"
-                className="object-cover"
               />
             </motion.div>
           </div>
@@ -65,7 +70,7 @@ export function ServiceView({ service }: { service: Service }) {
             </FadeUpReveal>
           ))}
           <FadeUpReveal delay={0.28}>
-            <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/50">
+            <p className="mt-8 text-[11px] font-medium uppercase tracking-[0.22em] text-ink/70">
               {service.duration}
             </p>
             <Link
@@ -79,14 +84,17 @@ export function ServiceView({ service }: { service: Service }) {
         </div>
       </div>
 
-      <div className="mt-24 grid gap-px border border-sand bg-sand md:mt-32 md:grid-cols-3">
+      <div
+        {...serviceBlock(service.id, "beneficios")}
+        className="mt-24 grid gap-px border border-sand bg-sand md:mt-32 md:grid-cols-3"
+      >
         {service.benefits.map((benefit, index) => (
           <FadeUpReveal
             key={benefit.title}
             delay={index * 0.08}
             className="bg-cream p-8 md:p-10"
           >
-            <p className="font-serif text-3xl text-sand">
+            <p className="font-serif text-3xl text-clay">
               {String(index + 1).padStart(2, "0")}
             </p>
             <h2 className="mt-6 font-serif text-2xl leading-snug md:text-3xl">
@@ -99,9 +107,12 @@ export function ServiceView({ service }: { service: Service }) {
         ))}
       </div>
 
-      <nav className="mt-20 flex flex-col justify-between gap-8 border-t border-sand pt-10 md:mt-28 md:flex-row md:items-end">
+      <nav
+        {...serviceBlock(service.id, "navegacao")}
+        className="mt-20 flex flex-col justify-between gap-8 border-t border-sand pt-10 md:mt-28 md:flex-row md:items-end"
+      >
         <Link href={previous.href} className="group max-w-sm">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-ink/45">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-ink/70">
             Anterior
           </p>
           <p className="mt-2 font-serif text-2xl md:text-3xl">
@@ -111,7 +122,7 @@ export function ServiceView({ service }: { service: Service }) {
           <span className="mt-2 block h-px w-16 origin-left scale-x-0 bg-ink transition-transform duration-500 group-hover:scale-x-100" />
         </Link>
         <Link href={next.href} className="group max-w-sm md:text-right">
-          <p className="text-[11px] uppercase tracking-[0.22em] text-ink/45">
+          <p className="text-[11px] uppercase tracking-[0.22em] text-ink/70">
             Seguinte
           </p>
           <p className="mt-2 font-serif text-2xl md:text-3xl">

@@ -1,18 +1,24 @@
 "use client";
 
-import Image from "next/image";
 import { useRef, useState } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
+import { FillImage } from "@/components/FillImage";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
 const HERO_POSTER =
-  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1400&q=80";
+  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80";
 
-const HERO_VIDEO = "/videos/hero.mp4";
+const HERO_SIZES = "(max-width: 1024px) 90vw, 42vw";
 
-export function Hero() {
+type HeroProps = {
+  videoSrc: string | null;
+};
+
+export function Hero({ videoSrc }: HeroProps) {
   const mediaRef = useRef<HTMLDivElement>(null);
-  const [videoReady, setVideoReady] = useState(true);
+  const [videoFailed, setVideoFailed] = useState(false);
+  const showVideo = Boolean(videoSrc) && !videoFailed;
   const { scrollYProgress } = useScroll({
     target: mediaRef,
     offset: ["start end", "end start"],
@@ -21,21 +27,21 @@ export function Hero() {
 
   return (
     <section
-      id="topo"
+      {...screenAttrs(SCREEN.hero)}
       className="relative overflow-hidden px-5 pt-32 pb-20 md:px-10 md:pt-40 md:pb-28 lg:px-16 lg:pt-44 lg:pb-32"
     >
       <div className="grid items-center gap-12 lg:grid-cols-12 lg:gap-16">
-        <div className="order-1 lg:col-span-5">
+        <div {...screenAttrs(SCREEN.heroMidia)} className="order-1 min-w-0 lg:col-span-5">
           <FadeUpReveal className="mx-auto w-full max-w-[420px] lg:mx-0 lg:max-w-none">
             <div
               ref={mediaRef}
               className="relative aspect-[3/4] overflow-hidden bg-sand/40"
             >
               <motion.div style={{ y }} className="absolute -inset-y-[14%] inset-x-0">
-                {videoReady ? (
+                {showVideo ? (
                   <video
                     className="absolute inset-0 h-full w-full object-cover"
-                    src={HERO_VIDEO}
+                    src={videoSrc ?? undefined}
                     poster={HERO_POSTER}
                     autoPlay
                     muted
@@ -45,16 +51,14 @@ export function Hero() {
                     disablePictureInPicture
                     disableRemotePlayback
                     aria-label="Vídeo em loop do espaço Lorena Vaz"
-                    onError={() => setVideoReady(false)}
+                    onError={() => setVideoFailed(true)}
                   />
                 ) : (
-                  <Image
+                  <FillImage
                     src={HERO_POSTER}
-                    alt="Cuidado spa, linho e luz suave"
-                    fill
-                    priority
-                    sizes="(max-width: 1024px) 80vw, 42vw"
-                    className="object-cover"
+                    alt="Cuidado em linho e luz suave"
+                    sizes={HERO_SIZES}
+                    preload
                   />
                 )}
               </motion.div>
@@ -62,7 +66,7 @@ export function Hero() {
           </FadeUpReveal>
         </div>
 
-        <div className="order-2 lg:col-span-7 lg:text-right">
+        <div {...screenAttrs(SCREEN.heroTexto)} className="order-2 min-w-0 lg:col-span-7 lg:text-right">
           <FadeUpReveal>
             <h1 className="font-serif text-[clamp(3.25rem,9vw,8.75rem)] font-normal leading-[0.92] tracking-[-0.02em]">
               Parar,

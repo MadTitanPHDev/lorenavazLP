@@ -5,6 +5,8 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { AnimatePresence, motion } from "framer-motion";
 import { NavLink } from "@/components/NavLink";
+import { useScrollLock } from "@/components/useScrollLock";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
 const NAV_LINKS = [
   { href: "/reflexologia", label: "Reflexologia" },
@@ -16,7 +18,10 @@ const NAV_LINKS = [
 export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
+  const [openPath, setOpenPath] = useState<string | null>(null);
+  const open = openPath === pathname;
+
+  useScrollLock(open);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 24);
@@ -25,19 +30,9 @@ export function Header() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
-
-  useEffect(() => {
-    document.body.style.overflow = open ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [open]);
-
   return (
     <header
+      {...screenAttrs(SCREEN.cabecalho)}
       className={`fixed inset-x-0 top-0 z-50 transition-[background,backdrop-filter] duration-500 ${
         scrolled || open ? "bg-cream/70 backdrop-blur-md" : "bg-transparent"
       }`}
@@ -50,7 +45,7 @@ export function Header() {
           LORENA&nbsp;&nbsp;VAZ
         </Link>
 
-        <nav className="hidden items-center gap-10 md:flex">
+        <nav {...screenAttrs(SCREEN.menuDesktop)} className="hidden items-center gap-10 md:flex">
           {NAV_LINKS.map((link) => (
             <NavLink
               key={link.href}
@@ -64,7 +59,7 @@ export function Header() {
           type="button"
           aria-label={open ? "Fechar o menu" : "Abrir o menu"}
           aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
+          onClick={() => setOpenPath(open ? null : pathname)}
           className="relative z-50 flex h-10 w-10 items-center justify-center md:hidden"
         >
           <span className="sr-only">Menu</span>
@@ -88,14 +83,16 @@ export function Header() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -8 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="flex flex-col gap-8 border-t border-sand/70 bg-cream/95 px-5 py-12 backdrop-blur-md md:hidden"
+            {...screenAttrs(SCREEN.menuMobile)}
+            data-lenis-prevent=""
+            className="flex max-h-[calc(100svh-4.5rem)] flex-col gap-8 overflow-y-auto border-t border-sand/70 bg-cream/95 px-5 py-12 backdrop-blur-md md:hidden"
           >
             {NAV_LINKS.map((link) => (
               <NavLink
                 key={link.href}
                 {...link}
                 active={pathname === link.href}
-                onClick={() => setOpen(false)}
+                onClick={() => setOpenPath(null)}
               />
             ))}
           </motion.nav>

@@ -1,14 +1,18 @@
 import Link from "next/link";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 import { SITE } from "@/lib/site";
 
 export function Footer() {
   return (
-    <footer className="px-5 pb-10 pt-20 md:px-10 md:pb-12 md:pt-28 lg:px-16">
+    <footer
+      {...screenAttrs(SCREEN.rodape)}
+      className="px-5 pb-10 pt-20 md:px-10 md:pb-12 md:pt-28 lg:px-16"
+    >
       <FadeUpReveal>
         <div className="grid gap-12 border-t border-sand pt-16 md:grid-cols-12 md:gap-8">
-          <div className="md:col-span-5">
-            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/55">
+          <div {...screenAttrs(SCREEN.rodapeLocal)} className="md:col-span-5">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
               Onde?
             </p>
             <p className="mt-4 font-serif text-2xl leading-snug md:text-3xl">
@@ -29,8 +33,8 @@ export function Footer() {
             </a>
           </div>
 
-          <div className="md:col-span-7 md:text-right">
-            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/55">
+          <div {...screenAttrs(SCREEN.rodapeConvite)} className="md:col-span-7 md:text-right">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
               Marcar uma consulta
             </p>
             <Link
@@ -44,7 +48,7 @@ export function Footer() {
         </div>
       </FadeUpReveal>
 
-      <FadeUpReveal className="mt-20 md:mt-28">
+      <FadeUpReveal {...screenAttrs(SCREEN.rodapeFrase)} className="mt-20 md:mt-28">
         <p className="font-serif text-[clamp(2.4rem,8vw,8rem)] font-normal leading-[0.92] tracking-[-0.03em]">
           Nada é sólido,
           <br />
@@ -52,8 +56,13 @@ export function Footer() {
         </p>
       </FadeUpReveal>
 
-      <div className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-sand pt-6 text-[11px] uppercase tracking-[0.2em] text-ink/50 md:mt-20 md:flex-row md:items-center">
-        <p>© {new Date().getFullYear()} {SITE.name}</p>
+      <div
+        {...screenAttrs(SCREEN.rodapeAssinatura)}
+        className="mt-16 flex flex-col items-start justify-between gap-4 border-t border-sand pt-6 text-[11px] uppercase tracking-[0.2em] text-ink/70 md:mt-20 md:flex-row md:items-center"
+      >
+        <p suppressHydrationWarning>
+          © {new Date().getFullYear()} {SITE.name}
+        </p>
         <p>Reflexologia · Massagem · Physioscan</p>
       </div>
     </footer>

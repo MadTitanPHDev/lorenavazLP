@@ -1,13 +1,14 @@
 import { FadeUpReveal } from "@/components/FadeUpReveal";
 import { Marquee } from "@/components/Marquee";
 import { HEALTH_AXES } from "@/lib/content";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
 export function HealthAxes() {
   return (
-    <section className="py-8 md:py-12">
+    <section {...screenAttrs(SCREEN.eixosSaude)} className="py-8 md:py-12">
       <div className="px-5 pb-12 md:px-10 md:pb-16 lg:px-16">
         <FadeUpReveal>
-          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/55">
+          <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
             Caminhos
           </p>
           <h2 className="mt-4 max-w-3xl font-serif text-[clamp(2.2rem,5.5vw,4.6rem)] font-normal leading-[0.98]">
@@ -25,7 +26,7 @@ export function HealthAxes() {
           </p>
         </FadeUpReveal>
       </div>
-      <Marquee items={[...HEALTH_AXES]} />
+      <Marquee name={SCREEN.faixaEixos} items={[...HEALTH_AXES]} />
     </section>
   );
 }

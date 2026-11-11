@@ -1,13 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { useRef } from "react";
 import { useScroll, useTransform, motion } from "framer-motion";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
+import { FillImage } from "@/components/FillImage";
+import { MediaFallback } from "@/components/MediaFallback";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
-const PORTRAIT = "/images/lorena.webp";
+const PORTRAIT_SIZES = "(max-width: 1024px) 90vw, 40vw";
 
-export function About() {
+type AboutProps = {
+  portraitSrc: string | null;
+};
+
+export function About({ portraitSrc }: AboutProps) {
   const imageRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: imageRef,
@@ -16,28 +22,34 @@ export function About() {
   const y = useTransform(scrollYProgress, [0, 1], ["-10%", "10%"]);
 
   return (
-    <section className="px-5 py-20 md:px-10 md:py-28 lg:px-16 lg:py-32">
+    <section
+      {...screenAttrs(SCREEN.praticante)}
+      className="px-5 py-20 md:px-10 md:py-28 lg:px-16 lg:py-32"
+    >
       <div className="grid items-center gap-14 lg:grid-cols-12 lg:gap-20">
-        <FadeUpReveal className="lg:col-span-5">
+        <FadeUpReveal {...screenAttrs(SCREEN.praticanteRetrato)} className="min-w-0 lg:col-span-5">
           <div
             ref={imageRef}
             className="relative mx-auto aspect-[3/4] w-full max-w-md overflow-hidden bg-sand/30 lg:max-w-none"
           >
             <motion.div style={{ y }} className="absolute -inset-y-[10%] inset-x-0">
-              <Image
-                src={PORTRAIT}
-                alt="Retrato de Lorena Vaz"
-                fill
-                sizes="(max-width: 1024px) 80vw, 40vw"
-                className="object-cover object-top"
-              />
+              {portraitSrc ? (
+                <FillImage
+                  src={portraitSrc}
+                  alt="Retrato de Lorena Vaz"
+                  sizes={PORTRAIT_SIZES}
+                  className="object-cover object-top"
+                />
+              ) : (
+                <MediaFallback label="Retrato de Lorena Vaz" />
+              )}
             </motion.div>
           </div>
         </FadeUpReveal>
 
-        <div className="lg:col-span-7">
+        <div {...screenAttrs(SCREEN.praticanteTexto)} className="min-w-0 lg:col-span-7">
           <FadeUpReveal>
-            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/55">
+            <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
               A praticante
             </p>
             <h2 className="mt-4 font-serif text-[clamp(2.4rem,5vw,4.5rem)] font-normal leading-[1.02]">

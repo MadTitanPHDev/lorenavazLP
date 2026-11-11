@@ -2,6 +2,7 @@
 
 import { useRef, type ReactNode } from "react";
 import { motion, useScroll, useTransform, type MotionValue } from "framer-motion";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
 const LINES = [
   {
@@ -80,15 +81,16 @@ export function BigQuote() {
 
   return (
     <section
+      {...screenAttrs(SCREEN.citacao)}
       ref={targetRef}
-      className="relative h-[280vh]"
+      className="relative h-[280vh] max-w-full"
       aria-label="Citação"
     >
-      <div className="sticky top-0 flex h-screen items-center justify-center overflow-hidden px-5 md:px-10 lg:px-20">
+      <div className="sticky top-0 flex h-svh touch-pan-y items-center justify-center overflow-hidden px-5 md:px-10 lg:px-20">
         <div className="mx-auto w-full max-w-6xl text-center">
           <motion.p
             style={{ opacity: eyebrowOpacity, y: eyebrowY }}
-            className="mb-10 text-[11px] font-medium uppercase tracking-[0.32em] text-ink/50"
+            className="mb-10 text-[11px] font-medium uppercase tracking-[0.32em] text-ink/70"
           >
             No consultório
           </motion.p>

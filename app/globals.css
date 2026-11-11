@@ -5,9 +5,10 @@
   --color-ink: #2a2b26;
   --color-sand: #d5c3a5;
   --color-sand-deep: #c4ae88;
+  --color-clay: #7c6544;
   --font-serif: var(--font-playfair), ui-serif, Georgia, serif;
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
-  --animate-marquee: marquee 32s linear infinite;
+  --animate-marquee: marquee 105s linear infinite;
 }
 
 @keyframes marquee {
@@ -38,12 +39,15 @@ html.lenis body {
 
 html {
   background: var(--color-cream);
+  max-width: 100%;
 }
 
 body {
   background: var(--color-cream);
   color: var(--color-ink);
   font-family: var(--font-sans);
+  max-width: 100%;
+  overscroll-behavior-x: none;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }

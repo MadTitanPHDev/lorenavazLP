@@ -1,16 +1,20 @@
+import { screenAttrs, type ScreenName } from "@/lib/screen";
+
 type MarqueeProps = {
+  name: ScreenName;
   items?: string[];
   className?: string;
 };
 
 const DEFAULT_ITEMS = ["Marcar uma consulta", "Presentear-se com uma pausa"];
 
-export function Marquee({ items = DEFAULT_ITEMS, className = "" }: MarqueeProps) {
+export function Marquee({ name, items = DEFAULT_ITEMS, className = "" }: MarqueeProps) {
   const sequence = Array.from({ length: 8 }, () => items).flat();
 
   return (
     <div
-      className={`overflow-hidden border-y border-sand ${className}`}
+      {...screenAttrs(name)}
+      className={`w-full max-w-full overflow-hidden border-y border-sand ${className}`}
       aria-hidden="true"
     >
       <div className="flex w-max animate-marquee py-4 will-change-transform">

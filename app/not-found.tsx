@@ -1,11 +1,15 @@
 import Link from "next/link";
 import { FadeUpReveal } from "@/components/FadeUpReveal";
+import { SCREEN, screenAttrs } from "@/lib/screen";
 
 export default function NotFound() {
   return (
-    <main className="flex min-h-[70vh] flex-col justify-center px-5 py-32 md:px-10 lg:px-16">
+    <main
+      {...screenAttrs(SCREEN.paginaNaoEncontrada)}
+      className="flex min-h-[70vh] flex-col justify-center px-5 py-32 md:px-10 lg:px-16"
+    >
       <FadeUpReveal>
-        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/50">
+        <p className="text-[11px] font-medium uppercase tracking-[0.28em] text-ink/70">
           404
         </p>
         <h1 className="mt-4 font-serif text-[clamp(3rem,8vw,7rem)] font-normal leading-[0.92]">
