@@ -9,9 +9,9 @@ import { useScrollLock } from "@/components/useScrollLock";
 import { SCREEN, screenAttrs } from "@/lib/screen";
 
 const NAV_LINKS = [
-  { href: "/reflexologia", label: "Reflexologia" },
-  { href: "/massagem", label: "Massagem" },
-  { href: "/physioscan", label: "Physioscan" },
+  { href: "/drenagem-linfatica", label: "Drenagem" },
+  { href: "/terapias-manuais", label: "Manuais" },
+  { href: "/terapias-integrativas", label: "Integrativas" },
   { href: "/contato", label: "Contato" },
 ] as const;
 

@@ -6,13 +6,13 @@ import { screenAttrs } from "@/lib/screen";
 const service = SERVICES[2];
 
 export const metadata: Metadata = {
-  title: "Physioscan — Lorena Vaz",
+  title: "Terapias integrativas — Lorena Vaz",
   description: service.lead,
 };
 
-export default function PhysioscanPage() {
+export default function TerapiasIntegrativasPage() {
   return (
-    <main {...screenAttrs("pagina-physioscan")}>
+    <main {...screenAttrs("pagina-terapias-integrativas")}>
       <ServiceView service={service} />
     </main>
   );

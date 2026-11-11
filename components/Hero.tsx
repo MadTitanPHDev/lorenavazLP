@@ -6,8 +6,7 @@ import { FadeUpReveal } from "@/components/FadeUpReveal";
 import { FillImage } from "@/components/FillImage";
 import { SCREEN, screenAttrs } from "@/lib/screen";
 
-const HERO_POSTER =
-  "https://images.unsplash.com/photo-1540555700478-4be289fbecef?auto=format&fit=crop&w=1600&q=80";
+const HERO_POSTER = "/images/hero-poster.jpg";
 
 const HERO_SIZES = "(max-width: 1024px) 90vw, 42vw";
 
@@ -50,7 +49,7 @@ export function Hero({ videoSrc }: HeroProps) {
                     preload="auto"
                     disablePictureInPicture
                     disableRemotePlayback
-                    aria-label="Vídeo em loop do espaço Lorena Vaz"
+                    aria-label="Vídeo temporário de uma massagem em andamento"
                     onError={() => setVideoFailed(true)}
                   />
                 ) : (
@@ -68,21 +67,20 @@ export function Hero({ videoSrc }: HeroProps) {
 
         <div {...screenAttrs(SCREEN.heroTexto)} className="order-2 min-w-0 lg:col-span-7 lg:text-right">
           <FadeUpReveal>
-            <h1 className="font-serif text-[clamp(3.25rem,9vw,8.75rem)] font-normal leading-[0.92] tracking-[-0.02em]">
-              Parar,
+            <h1 className="font-serif text-[clamp(2.55rem,6vw,5.5rem)] font-normal leading-[1.02] tracking-[-0.02em]">
+              Cuidado que equilibra
               <br />
-              <em className="italic">respirar,</em>
+              <em className="italic">corpo, mente</em>
               <br />
-              reconectar-se
+              e essência!
             </h1>
           </FadeUpReveal>
 
           <FadeUpReveal delay={0.15} className="mt-10 md:mt-14">
             <p className="font-sans text-[15px] font-light leading-[1.85] text-ink/80 md:text-base lg:ml-auto lg:max-w-xl">
-              Lorena Vaz, praticante em cuidados energéticos, recebe você
-              com uma abordagem holística para ajudar a liberar e relançar as
-              suas energias vitais. Três técnicas complementares, para deixar o
-              corpo iniciar os seus mecanismos de homeostase e equilíbrio.
+              Lorena Vaz recebe você com drenagem linfática, terapias
+              manuais e terapias integrativas. Um cuidado para equilibrar
+              corpo, mente e essência, no seu tempo.
             </p>
           </FadeUpReveal>
         </div>

@@ -21,9 +21,9 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Lorena Vaz — Reflexologia, Massagem Abhyanga e Physioscan",
+  title: "Lorena Vaz — Drenagem linfática, terapias manuais e integrativas",
   description:
-    "Lorena Vaz, praticante em cuidados energéticos em Presidente Prudente. Uma pausa para parar, respirar, reconectar-se.",
+    "Lorena Vaz, em Presidente Prudente. Cuidado que equilibra corpo, mente e essência.",
 };
 
 export default function RootLayout({

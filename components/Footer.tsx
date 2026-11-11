@@ -63,7 +63,7 @@ export function Footer() {
         <p suppressHydrationWarning>
           © {new Date().getFullYear()} {SITE.name}
         </p>
-        <p>Reflexologia · Massagem · Physioscan</p>
+        <p>Drenagem linfática · Terapias manuais · Terapias integrativas</p>
       </div>
     </footer>
   );

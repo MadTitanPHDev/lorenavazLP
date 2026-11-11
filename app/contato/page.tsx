@@ -7,7 +7,7 @@ import { SCREEN, screenAttrs } from "@/lib/screen";
 export const metadata: Metadata = {
   title: "Contato — Lorena Vaz",
   description:
-    "Marque uma pausa com Lorena Vaz. Reflexologia, massagem Abhyanga e Physioscan no Instituto Vivance, em Presidente Prudente.",
+    "Marque uma sessão com Lorena Vaz. Drenagem linfática, terapias manuais e terapias integrativas no Instituto Vivance, em Presidente Prudente.",
 };
 
 export default function ContatoPage() {

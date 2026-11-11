@@ -6,13 +6,13 @@ import { screenAttrs } from "@/lib/screen";
 const service = SERVICES[0];
 
 export const metadata: Metadata = {
-  title: "Reflexologia plantar — Lorena Vaz",
+  title: "Drenagem linfática — Lorena Vaz",
   description: service.lead,
 };
 
-export default function ReflexologiaPage() {
+export default function DrenagemLinfaticaPage() {
   return (
-    <main {...screenAttrs("pagina-reflexologia")}>
+    <main {...screenAttrs("pagina-drenagem-linfatica")}>
       <ServiceView service={service} />
     </main>
   );

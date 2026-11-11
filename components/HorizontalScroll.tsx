@@ -14,6 +14,35 @@ const HOLD = (1 - (COUNT - 1) * WIPE) / COUNT;
 
 const IMAGE_SIZES = "(max-width: 1024px) 100vw, 55vw";
 
+function imageRange(index: number) {
+  const start = index * HOLD + (index - 1) * WIPE;
+  return [start, start + WIPE] as const;
+}
+
+function smoothstep(value: number) {
+  const t = Math.min(1, Math.max(0, value));
+  return t * t * (3 - 2 * t);
+}
+
+function layerOpacity(index: number, progress: number) {
+  let opacity = index === 0 ? 1 : 0;
+
+  if (index > 0) {
+    const [start, end] = imageRange(index);
+    opacity = progress <= start ? 0 : progress >= end ? 1 : smoothstep((progress - start) / (end - start));
+  }
+
+  if (index < COUNT - 1) {
+    const [start, end] = imageRange(index + 1);
+    if (progress >= end) opacity = 0;
+    else if (progress > start) {
+      opacity *= 1 - smoothstep((progress - start) / (end - start));
+    }
+  }
+
+  return opacity;
+}
+
 function activeIndexAt(progress: number) {
   let cursor = 0;
   for (let index = 0; index < COUNT - 1; index += 1) {
@@ -24,52 +53,56 @@ function activeIndexAt(progress: number) {
   return COUNT - 1;
 }
 
-const IMAGE_EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-
-function TechniqueImage({ service, active }: { service: Service; active: boolean }) {
-  const frameRef = useRef<HTMLDivElement>(null);
-  const skipEnter = useRef(true);
-
-  useLayoutEffect(() => {
-    const frame = frameRef.current;
-    if (!frame) return;
-    frame.getAnimations().forEach((animation) => animation.cancel());
-    if (skipEnter.current) {
-      skipEnter.current = false;
-      return;
-    }
-    if (!active) return;
-    frame.animate([{ opacity: 0 }, { opacity: 1 }], {
-      duration: 700,
-      easing: IMAGE_EASE,
-      fill: "backwards",
-    });
-  }, [active]);
-
-  return (
-    <div
-      ref={frameRef}
-      aria-hidden={!active}
-      className="absolute inset-0 overflow-hidden"
-      style={{
-        opacity: active ? 1 : 0,
-        visibility: active ? "visible" : "hidden",
-      }}
-    >
-      <FillImage
-        src={service.image}
-        alt={active ? service.alt : ""}
-        sizes={IMAGE_SIZES}
-        loading="eager"
-        fetchPriority="low"
-      />
-    </div>
-  );
+function ramp(progress: number, start: number, end: number) {
+  if (progress <= start) return 0;
+  if (progress >= end) return 1;
+  return smoothstep((progress - start) / (end - start));
 }
 
-function TechniqueCopy({ service }: { service: Service }) {
+function copyOpacity(index: number, progress: number) {
+  let opacity = index === 0 ? 1 : 0;
+
+  if (index > 0) {
+    const [start, end] = imageRange(index);
+    const span = end - start;
+    opacity = ramp(progress, start + span * 0.36, start + span * 0.62);
+  }
+
+  if (index < COUNT - 1) {
+    const [start, end] = imageRange(index + 1);
+    const span = end - start;
+    const fadeStart = start + span * 0.28;
+    const fadeEnd = start + span * 0.52;
+    if (progress >= fadeEnd) opacity = 0;
+    else if (progress > fadeStart) opacity *= 1 - ramp(progress, fadeStart, fadeEnd);
+  }
+
+  return opacity;
+}
+
+function paintLayer(layer: HTMLElement | null, opacity: number) {
+  if (!layer) return;
+  layer.style.opacity = opacity.toFixed(3);
+  layer.style.visibility = opacity < 0.02 ? "hidden" : "visible";
+}
+
+function TechniqueCopy({
+  service,
+  concealed,
+  resting,
+  copyRef,
+}: {
+  service: Service;
+  concealed: boolean;
+  resting: boolean;
+  copyRef: (node: HTMLDivElement | null) => void;
+}) {
   return (
-    <div className="max-w-lg">
+    <div
+      ref={copyRef}
+      aria-hidden={concealed}
+      className={`max-w-lg ${resting ? "invisible opacity-0" : ""}`}
+    >
       <p className="font-serif text-5xl font-normal leading-[1.15] text-clay md:text-6xl xl:text-8xl">
         {service.index}
       </p>
@@ -93,8 +126,26 @@ function StickyTechniquesScroll() {
   });
   const [activeIndex, setActiveIndex] = useState(0);
   const activeService = SERVICES[activeIndex] ?? SERVICES[0];
+  const imageRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const copyRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  const paint = (progress: number) => {
+    for (let index = 0; index < COUNT; index += 1) {
+      const image = imageRefs.current[index];
+      paintLayer(image, layerOpacity(index, progress));
+      const copy = copyRefs.current[index];
+      const textOpacity = copyOpacity(index, progress);
+      paintLayer(copy, textOpacity);
+      if (copy) copy.style.transform = `translateY(${((1 - textOpacity) * 18).toFixed(1)}px)`;
+    }
+  };
+
+  useLayoutEffect(() => {
+    paint(scrollYProgress.get());
+  }, [scrollYProgress]);
 
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    paint(latest);
     const next = activeIndexAt(latest);
     setActiveIndex((current) => (current === next ? current : next));
   });
@@ -106,20 +157,45 @@ function StickyTechniquesScroll() {
       className="relative h-[300vh] max-w-full"
     >
       <div className="sticky top-0 box-border h-svh touch-pan-y pt-20">
-        <div className="relative grid h-full grid-rows-[auto_minmax(0,1fr)] border-t border-sand/30 lg:grid-cols-[45%_55%] lg:grid-rows-none">
+        <div className="relative grid h-full min-h-0 grid-rows-[auto_minmax(0,1fr)] border-t border-sand/30 lg:grid-cols-[45%_55%] lg:grid-rows-none">
           <div
             {...screenAttrs(SCREEN.tecnicasTexto)}
-            className="relative z-10 flex h-full min-h-0 items-center overflow-hidden border-sand/30 px-5 py-6 md:px-10 lg:border-r lg:px-12 lg:py-0 xl:px-20"
+            className="relative z-10 grid h-full min-h-0 items-center overflow-hidden border-sand/30 px-5 py-6 md:px-10 lg:border-r lg:px-12 lg:py-0 xl:px-20 [&>*]:col-start-1 [&>*]:row-start-1"
           >
-            <TechniqueCopy key={activeService.id} service={activeService} />
+            {SERVICES.map((service, index) => (
+              <TechniqueCopy
+                key={service.id}
+                service={service}
+                concealed={index !== activeIndex}
+                resting={index !== 0}
+                copyRef={(node) => {
+                  copyRefs.current[index] = node;
+                }}
+              />
+            ))}
           </div>
 
           <div
             {...screenAttrs(SCREEN.tecnicasImagem)}
-            className="relative overflow-hidden bg-sand/20"
+            className="relative min-h-[42vh] overflow-hidden bg-sand/20 lg:min-h-0"
           >
             {SERVICES.map((service, index) => (
-              <TechniqueImage key={service.id} service={service} active={index === activeIndex} />
+              <div
+                key={service.id}
+                ref={(node) => {
+                  imageRefs.current[index] = node;
+                }}
+                aria-hidden={index !== activeIndex}
+                className={`absolute inset-0 ${index === 0 ? "" : "invisible opacity-0"}`}
+              >
+                <FillImage
+                  src={service.image}
+                  alt={index === activeIndex ? service.alt : ""}
+                  sizes={IMAGE_SIZES}
+                  loading="eager"
+                  fetchPriority="low"
+                />
+              </div>
             ))}
           </div>
 
@@ -154,9 +230,8 @@ export function HorizontalScroll() {
         </FadeUpReveal>
         <FadeUpReveal delay={0.12} className="mt-8 max-w-lg">
           <p className="font-sans text-[15px] font-light leading-[1.85] text-ink/75">
-            Os cuidados propostos limpam as energias estagnadas, recarregam e
-            relançam a circulação vital — para ajudar o corpo no seu mecanismo
-            de homeostase.
+            Drenagem linfática, terapias manuais e terapias integrativas.
+            Três caminhos para devolver leveza, movimento e presença.
           </p>
         </FadeUpReveal>
       </div>

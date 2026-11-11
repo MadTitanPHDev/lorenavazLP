@@ -1,102 +1,99 @@
 export const SERVICES = [
   {
-    id: "reflexologia",
-    href: "/reflexologia",
+    id: "drenagem-linfatica",
+    href: "/drenagem-linfatica",
     index: "01",
-    title: "Reflexologia",
-    subtitle: "plantar",
+    title: "Drenagem",
+    subtitle: "linfática",
     description:
-      "Prática ancestral, esta técnica de cuidado alternativo faz-se por pressões digitais em todo o pé, para detectar e liberar tensões.",
-    image:
-      "https://images.unsplash.com/photo-1519824145371-296894a0daa9?auto=format&fit=crop&w=1400&q=80",
-    alt: "Cuidado de reflexologia, mãos em um pé",
+      "Manobras suaves, lentas e rítmicas, no sentido da linfa, para aliviar a sensação de peso e favorecer a circulação.",
+    image: "/images/drenagem.jpg",
+    alt: "Mãos em um toque amplo e leve, no ritmo da drenagem",
     eyebrow: "Técnica 01",
-    lead: "Uma escuta do corpo a partir da planta dos pés — para detectar, liberar e devolver circulação à energia vital.",
+    lead: "Um toque leve, no ritmo da linfa. A drenagem convida o que estava retido a voltar a circular.",
     body: [
-      "A reflexologia plantar é uma prática ancestral. Por pressões precisas nos pontos reflexos do pé, o cuidado detecta zonas de tensão e convida o organismo a retomar o seu próprio equilíbrio.",
-      "A sessão acontece em silêncio atento. Sem força, sem pressa. O toque acompanha o que o corpo já sabe fazer: limpar o que estagnou e relançar o que precisa circular.",
+      "A drenagem linfática manual, descrita por Emil Vodder na década de 1930, é feita com manobras superficiais, lentas e ritmadas. As mãos acompanham o trajeto dos vasos linfáticos, sem dor e sem marcar a pele.",
+      "O gesto favorece o deslocamento da linfa, ajuda a diminuir a sensação de inchaço e de peso e oferece um descanso profundo. Não substitui avaliação médica: infecção aguda, trombose e insuficiência cardíaca descompensada pedem outro caminho.",
     ],
     benefits: [
       {
-        title: "Liberar tensões",
-        text: "Pressões digitais mapeiam o pé e desfazem nós físicos e energéticos.",
+        title: "Leveza",
+        text: "Alivia a sensação de retenção e de peso nos tecidos.",
       },
       {
-        title: "Relançar a circulação",
-        text: "O estímulo dos pontos reflexos apoia a homeostase e o descanso profundo.",
+        title: "Ritmo",
+        text: "O toque lento acompanha o fluxo natural da linfa e acalma.",
       },
       {
-        title: "Voltar ao essencial",
-        text: "Uma pausa concreta para o sistema nervoso sair do modo de alerta.",
+        title: "Cuidado consciente",
+        text: "Indicada quando o corpo pede circulação, não num quadro agudo.",
       },
     ],
     duration: "Sessão de cerca de 60 minutos",
   },
   {
-    id: "massagem",
-    href: "/massagem",
+    id: "terapias-manuais",
+    href: "/terapias-manuais",
     index: "02",
-    title: "Massagem",
-    subtitle: "Abhyanga",
+    title: "Terapias",
+    subtitle: "manuais",
     description:
-      "Massagem de bem-estar conhecida pelas virtudes preventivas e pela capacidade de redistribuir a energia pelo corpo, no plano físico e mental.",
-    image:
-      "https://images.unsplash.com/photo-1544161515-4ab6ce6db874?auto=format&fit=crop&w=1400&q=80",
-    alt: "Massagem Abhyanga com pedras mornas",
+      "O toque das mãos sobre músculos, fáscia e articulações, para soltar a tensão, devolver mobilidade e acalmar o corpo.",
+    image: "/images/manuais.jpg",
+    alt: "Mãos aplicando pressão na terapia manual",
     eyebrow: "Técnica 02",
-    lead: "Um banho de óleo e presença. O Abhyanga redistribui a energia, acalma o mental e devolve densidade ao corpo.",
+    lead: "As mãos escutam antes de agir. A terapia manual devolve espaço ao que estava preso.",
     body: [
-      "O Abhyanga é uma massagem ayurvédica de bem-estar, reconhecida pelo seu caráter preventivo. Óleos quentes e gestos longos envolvem o corpo inteiro, da cabeça aos pés.",
-      "Mais do que relaxar, o cuidado favorece a circulação da energia vital — no físico e no mental. É uma pausa para se depositar, sem ter de produzir nada.",
+      "Terapia manual é o conjunto de técnicas feitas com as mãos sobre os tecidos: massagem, mobilização suave e liberação da fáscia. O objetivo é reduzir a tensão, melhorar a mobilidade e aliviar a sensação de dor muscular.",
+      "A sessão se ajusta ao que o corpo apresenta no dia — pressão, ritmo e região. É um cuidado de bem-estar. Não faz diagnóstico e não substitui um tratamento médico.",
     ],
     benefits: [
       {
-        title: "Nutrir o sistema nervoso",
-        text: "O ritmo lento e o calor do óleo sinalizam segurança ao corpo.",
+        title: "Soltar a tensão",
+        text: "O toque rítmico afrouxa músculos e fáscia sobrecarregados.",
       },
       {
-        title: "Redistribuir a energia",
-        text: "O gesto contínuo ajuda a energia a circular de forma mais homogênea.",
+        title: "Devolver movimento",
+        text: "A mobilização suave ajuda a região a recuperar amplitude.",
       },
       {
-        title: "Prevenir o desgaste",
-        text: "Uma manutenção regular, como se cuida de um instrumento precioso.",
+        title: "Acalmar",
+        text: "O relaxamento físico também alivia a tensão e a ansiedade do dia.",
       },
     ],
-    duration: "Sessão de cerca de 75 minutos",
+    duration: "Sessão de cerca de 60 minutos",
   },
   {
-    id: "physioscan",
-    href: "/physioscan",
+    id: "terapias-integrativas",
+    href: "/terapias-integrativas",
     index: "03",
-    title: "Physio",
-    subtitle: "scan",
+    title: "Terapias",
+    subtitle: "integrativas",
     description:
-      "Permite obter informações precisas sobre o estado energético de todos os sistemas do corpo humano: endócrino, nervoso, ósseo, digestivo, linfático...",
-    image:
-      "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=80",
-    alt: "Folhagem e luz, universo do Physioscan",
+      "Um cuidado da pessoa inteira — corpo, mente e essência — com escuta, presença e práticas que conversam entre si.",
+    image: "/images/integrativas.jpg",
+    alt: "Pessoa em meditação, cuidado integrativo de corpo e mente",
     eyebrow: "Técnica 03",
-    lead: "Uma leitura sutil do terreno. O Physioscan observa o estado energético dos sistemas e indica por onde recomeçar.",
+    lead: "Nada está separado. A terapia integrativa junta o toque, a escuta e o ritmo de quem chega.",
     body: [
-      "O Physioscan permite obter informações precisas sobre o estado energético dos sistemas do corpo: endócrino, nervoso, ósseo, digestivo, linfático.",
-      "Não substitui um diagnóstico médico. Oferece um mapa complementar — para orientar o cuidado, escolher a técnica e acompanhar a evolução com clareza e respeito.",
+      "As práticas integrativas e complementares, reconhecidas no Brasil pela Política Nacional de Práticas Integrativas e Complementares no SUS desde 2006, olham a pessoa por inteiro: corpo, emoção, mente e vida social.",
+      "No consultório, isso se traduz em escuta acolhedora e em técnicas que se complementam — o toque manual, a drenagem e o tempo de pausa — para apoiar o autocuidado. Complementam o acompanhamento de saúde. Não o substituem.",
     ],
     benefits: [
       {
-        title: "Ver o terreno",
-        text: "Uma fotografia energética para compreender o que pede atenção.",
+        title: "Escuta inteira",
+        text: "O cuidado considera o que o corpo pede e também o momento de vida.",
       },
       {
-        title: "Orientar o cuidado",
-        text: "Ajuda a escolher entre reflexologia, massagem ou o acompanhamento seguinte.",
+        title: "Práticas que se combinam",
+        text: "Drenagem, toque manual e pausa podem compor a mesma sessão.",
       },
       {
-        title: "Acompanhar no tempo",
-        text: "Permite observar, com suavidade, o que se reequilibra de uma sessão para a outra.",
+        title: "Autocuidado",
+        text: "A sessão devolve presença para continuar o cuidado fora do consultório.",
       },
     ],
-    duration: "Sessão de cerca de 45 minutos",
+    duration: "Sessão de cerca de 50 minutos",
   },
 ] as const;
 
@@ -114,12 +111,12 @@ export const TESTIMONIALS = [
   {
     name: "Sarah",
     quote:
-      "Consultei Lorena Vaz em reflexologia plantar e em massagem Abhyanga. É uma pessoa muito atenta e apaixonada pelo que faz. Duas sessões bastaram para resolver a minha queixa.",
+      "Consultei Lorena Vaz em drenagem linfática e em terapias manuais. É uma pessoa muito atenta e apaixonada pelo que faz. Duas sessões bastaram para aliviar a minha queixa.",
   },
   {
     name: "François",
     quote:
-      "A massagem Abhyanga foi uma verdadeira pausa de bem-estar, que me devolveu energia. Um toque justo, uma presença calma, uma sessão que permanece.",
+      "A terapia manual foi uma verdadeira pausa de bem-estar, que me devolveu leveza. Um toque justo, uma presença calma, uma sessão que permanece.",
   },
   {
     name: "Valérie",
